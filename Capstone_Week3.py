@@ -47,15 +47,13 @@ def process_data(data):
     popular_car_year[item['car']['car_year']] += item["total_sales"]
 
   sorted_popular_car = sorted(popular_car_year.items(), key=operator.itemgetter(1), reverse=True)
-  #print(sorted_popular_car)
   summary = [
     "The {} generated the most revenue: ${}".format(
       format_car(max_revenue["car"]), max_revenue["revenue"]),
     "The {} had the most sales: {}".format(format_car(max_sales["car"]), max_sales["total_sales"]),
     "The most popular year was {} with {} sales.".format(sorted_popular_car[0][0], sorted_popular_car[0][1])
   ]
-  info = "{}<br/>{}<br/>{}<br/>".format(summary[0], summary[1], summary[2])
-
+  info = "<br/>".join(summary)
   return info
 
 
@@ -73,10 +71,12 @@ def main(argv):
   summary = process_data(data)
   table_data = cars_dict_to_table(data)
   print(summary)
+
   # TODO: turn this into a PDF report
   reports.generate('/tmp/cars.pdf', 'Summary', summary, table_data)
+
   # TODO: send the PDF report as an email attachment
-  message = emails.generate("automation@example.com", "student-02-bbeffbc2c466@example.com", "Sales summary for last month", "The same summary from the PDF, but using \n between the lines", "/tmp/cars.pdf")
+  message = emails.generate("automation@example.com", "<USER>@example.com", "Sales summary for last month", "The same summary from the PDF, but using \n between the lines", "/tmp/cars.pdf")
   emails.send(message)
 
 if __name__ == "__main__":
