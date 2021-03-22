@@ -1,4 +1,4 @@
-##Huruf Bergantian
+## Huruf Bergantian
 
 '''python
 def hurufBergantian(inputString):
